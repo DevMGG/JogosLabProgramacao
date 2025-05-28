@@ -26,22 +26,27 @@ class Perguntas:
             
             user_alternative = input ("Digite a alternativa correta: ").strip().upper()
             print ("")
-            if user_alternative != q.alternativa_correta:
-                print ("Que pena! Você errou :(")
-                print (f"A resposta correta era {q.alternativa_correta}")
+            for i in user_alternative:
+                if user_alternative != "A" and user_alternative != "B" and user_alternative != "C" and user_alternative != "D" and user_alternative != "E":
+                    print ("Digite a letra da alternativa que ache correta! (A, B, C, D ou E)")
+                    print ("")
+                    continue
+                if user_alternative != q.alternativa_correta:
+                    print ("Que pena! Você errou :(")
+                    print (f"A resposta correta era {q.alternativa_correta}")
+                    print (f"Pontuação: {pontuacao}")
+                    print ("")
+                    print ("-------------------------------------------------------------")
+                    print ("")
+                    continue
+                        
+                print ("Parabéns! Você acertou!")
+                pontuacao += 1
                 print (f"Pontuação: {pontuacao}")
                 print ("")
                 print ("-------------------------------------------------------------")
                 print ("")
                 continue
-                    
-            print ("Parabéns! Você acertou!")
-            pontuacao += 1
-            print (f"Pontuação: {pontuacao}")
-            print ("")
-            print ("-------------------------------------------------------------")
-            print ("")
-            continue
 
         else:
             print (f"Jogo encerrado! Essa foi sua pontuação final: {pontuacao}/{len(self.questoes)}")
