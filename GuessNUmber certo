@@ -1,0 +1,58 @@
+from flask import Flask, render_template, request, session, redirect, url_for
+import random
+
+app = Flask(__name__)
+
+@app.route('/GuessNumber', methods = ['GET', 'POST'])
+
+def inicializar_jogo():
+    global numero, contagem
+    numero = random.randint(1,100)
+    contagem = 0
+            
+def jogo():
+
+    if request.form.get('new_game'):
+        inicializar_jogo()
+        return redirect(url_for('GuessNumber'))
+        
+    if request.method == 'POST':
+        if 'choose' in request.form:
+            try:
+                choose = int (request.form['choose'])
+                while choose != numero:
+                    
+                    contagem = contagem + 1
+                        
+                    if choose > 100 or choose < 1:
+                        choose = int (request.form['choose'])
+                        mensagem = ("Insira um número entre 1 e 100!!!\n")
+                        continue
+                        
+                    elif choose < numero:
+                        choose = int (request.form['choose'])
+                        mensagem = ("Insira um número maior:\n")
+                        continue
+                        
+                    elif choose > numero:
+                        choose = int (request.form['choose'])
+                        mensagem = ("Insira um número menor:\n")
+                        continue
+                else:
+                    mensagem = ("Parabéns, você ganhou!! O número era: {numero}")
+            except ValueError:
+                mensagem = ("Entrada inválida. Por favor, insira um número inteiro de 0 a 100.")
+                
+            return redirect(url_for('GuessNumber'))
+        
+        return render_template('GuessNumber.html', mensagem = mensagem)
+
+if __name__ == '__main__':
+    # Para executar:
+    # 1. Flask instalado (pip install Flask).
+    # 2. Pasta 'templates' com 'adivinhar_numero.html'.
+    # 3. Execute este arquivo Python.
+    # 4. Navegador: http://127.0.0.1:5000/GuessNumber
+    app.run(debug=True) # Porta diferente
+
+
